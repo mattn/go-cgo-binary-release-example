@@ -38,7 +38,7 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           choco install mingw
-          choco install gcc-arm64
+          choco install gcc-arm
 
       - name: Install dependencies (MacOS)
         if: runner.os == 'macOS'
