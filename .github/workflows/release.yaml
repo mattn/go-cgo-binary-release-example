@@ -38,6 +38,7 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           choco install mingw
+          choco install gcc-arm64
 
       - name: Install dependencies (MacOS)
         if: runner.os == 'macOS'
@@ -48,7 +49,7 @@ jobs:
           CGO_ENABLED: 1
           GOOS: ${{ runner.os == 'Windows' && 'windows' || runner.os == 'Linux' && 'linux' || 'darwin' }}
           GOARCH: ${{ matrix.arch }}
-          CC: ${{ runner.os == 'macOS' && 'clang' || (runner.os == 'Linux' && matrix.arch == 'arm64') && 'aarch64-linux-gnu-gcc' || 'gcc' }}
+          CC: ${{ runner.os == 'macOS' && 'clang' || (runner.os == 'Linux' && matrix.arch == 'arm64') && 'aarch64-linux-gnu-gcc' || (runner.os == 'Windows' && matrix.arch == 'arm64') && 'gcc-arm64' || 'gcc' }}
         run: |
           go build -o myapp-${{ runner.os }}-${{ matrix.arch }}
 
