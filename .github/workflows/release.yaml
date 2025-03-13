@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: myapp-${{ runner.os }}-${{ matrix.arch }}
-          path: myapp-*
+          path: myapp-${{ runner.os }}-${{ matrix.arch }}*
 
   release:
     needs: build
