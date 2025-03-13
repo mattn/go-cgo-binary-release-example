@@ -54,16 +54,16 @@ jobs:
         shell: pwsh
         run: |
           if ($env:runner_os -eq "Windows") {
-            go build -o "myapp-${{ matrix.os }}-${{ matrix.arch }}.exe"
+            go build -o "myapp-${{ runner.os }}-${{ matrix.arch }}.exe"
           } else {
-            go build -o "myapp-${{ matrix.os }}-${{ matrix.arch }}"
+            go build -o "myapp-${{ runner.os }}-${{ matrix.arch }}"
           }
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: myapp-${{ matrix.os }}-${{ matrix.arch }}
-          path: myapp-${{ matrix.os }}-${{ matrix.arch }}*
+          name: myapp-${{ runner.os }}-${{ matrix.arch }}
+          path: myapp-${{ runner.os }}-${{ matrix.arch }}*
 
   release:
     needs: build
@@ -75,7 +75,7 @@ jobs:
       - name: Download artifacts from the build job
         uses: actions/download-artifact@v4
         with:
-          name: myapp-${{ matrix.os }}-${{ matrix.arch }}
+          name: myapp-${{ runner.os }}-${{ matrix.arch }}
           path: ./artifacts
 
       - name: Create GitHub Release
@@ -83,10 +83,10 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ./artifacts/myapp-ubuntu-amd64
-            ./artifacts/myapp-ubuntu-arm64
-            ./artifacts/myapp-macos-amd64
-            ./artifacts/myapp-macos-arm64
-            ./artifacts/myapp-windows-amd64.exe
+            ./artifacts/myapp-Linux-amd64
+            ./artifacts/myapp-Linux-arm64
+            ./artifacts/myapp-macOS-amd64
+            ./artifacts/myapp-macOS-arm64
+            ./artifacts/myapp-Windows-amd64.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
