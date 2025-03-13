@@ -48,7 +48,7 @@ jobs:
           CGO_ENABLED: 1
           GOOS: ${{ runner.os == 'Windows' && 'windows' || runner.os == 'Linux' && 'linux' || 'darwin' }}
           GOARCH: ${{ matrix.arch }}
-          CC: ${{ matrix.arch == 'arm64' && 'aarch64-linux-gnu-gcc' || 'gcc' }}
+          CC: ${{ matrix.os == 'macOS' && 'clang' || matrix.arch == 'arm64' && 'aarch64-linux-gnu-gcc' || 'gcc' }}
         run: |
           go build -o myapp-${{ runner.os }}-${{ matrix.arch }}
 
