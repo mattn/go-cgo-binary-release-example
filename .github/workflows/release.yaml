@@ -60,3 +60,23 @@ jobs:
           name: myapp-${{ runner.os }}-${{ matrix.arch }}
           path: myapp-*
 
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            myapp-ubuntu-amd64
+            myapp-ubuntu-arm64
+            myapp-macos-amd64
+            myapp-macos-arm64
+            myapp-windows-amd64.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
