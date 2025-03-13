@@ -61,16 +61,21 @@ jobs:
           path: myapp-*
 
   release:
-    needs: build
+    name: Release
+    needs:
+      - build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Create GitHub Release
-        id: create_release
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+      - name: Release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
+          name: myapp ${{ github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
+          generate_release_notes: true
           files: |
             myapp-ubuntu-amd64
             myapp-ubuntu-arm64
@@ -79,4 +84,3 @@ jobs:
             myapp-windows-amd64.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
