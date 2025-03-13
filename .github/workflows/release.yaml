@@ -76,6 +76,10 @@ jobs:
       - name: Download artifacts from the build job
         uses: actions/download-artifact@v4
 
+      - name: Debug
+        run: |
+          find .
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
@@ -84,9 +88,12 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
           generate_release_notes: true
+          #files: |
+          #  ./myapp-Linux-amd64/myapp-Linux-amd64
+          #  ./myapp-Linux-arm64/myapp-Linux-arm64
+          #  ./myapp-macOS-arm64/myapp-macOS-arm64
+          #  ./myapp-macOS-amd64/myapp-macOS-amd64
+          #  ./myapp-Windows-amd64/myapp-Windows-amd64.exe
           files: |
             ./myapp-Linux-amd64/myapp-Linux-amd64
             ./myapp-Linux-arm64/myapp-Linux-arm64
-            ./myapp-macOS-amd64/myapp-macOS-amd64
-            ./myapp-macOS-arm64/myapp-macOS-arm64
-            ./myapp-Windows-amd64/myapp-Windows-amd64.exe
