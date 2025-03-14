@@ -65,7 +65,8 @@ jobs:
           CFLAGS: -Wa,-march=armv8-a
         shell: cmd
         run: |
-          go build -o myapp-windows-arm64.exe
+          gcc -v
+          go build -v -o myapp-windows-arm64.exe
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
