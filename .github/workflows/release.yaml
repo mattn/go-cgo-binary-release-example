@@ -65,7 +65,9 @@ jobs:
         run: |
           set MSYSTEM=CLANGARM64
           go version
-          msys2 -c 'go build -o myapp-windows-arm64.exe'
+          where gcc
+          where aarch64-w64-mingw32-gcc
+          go build -o myapp-windows-arm64.exe
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
