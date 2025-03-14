@@ -62,6 +62,7 @@ jobs:
           GOOS: windows
           GOARCH: ${{ matrix.arch }}
           CC: gcc
+          CFLAGS: -Wa,-march=armv8-a
         shell: cmd
         run: |
           go build -o myapp-windows-arm64.exe
