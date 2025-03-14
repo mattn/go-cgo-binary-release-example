@@ -38,7 +38,8 @@ jobs:
         if: runner.os == 'Windows'
         uses: msys2/setup-msys2@v2
         with:
-          msystem: ${{ matrix.arch == 'arm64' && 'CLANGARM64' || 'MINGW64' }}
+          #msystem: ${{ matrix.arch == 'arm64' && 'CLANGARM64' || 'MINGW64' }}
+          msystem: MINGW64
           install: ${{ matrix.arch == 'arm64' && 'mingw-w64-clang-aarch64-gcc' || 'mingw-w64-x86_64-gcc' }} make
 
       - name: Install dependencies (MacOS)
