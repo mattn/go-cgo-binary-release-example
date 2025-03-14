@@ -55,6 +55,7 @@ jobs:
           GOOS: ${{ runner.os == 'Windows' && 'windows' || runner.os == 'Linux' && 'linux' || 'darwin' }}
           GOARCH: ${{ matrix.arch }}
           CC: ${{ runner.os == 'macOS' && 'clang' || (runner.os == 'Linux' && matrix.arch == 'arm64') && 'aarch64-linux-gnu-gcc' || (runner.os == 'Windows' && matrix.arch == 'arm64') && 'arm-none-eabi-gcc' || 'gcc' }}
+          CFLAGS: ${{ matrix.arch == 'arm64' && '-mno-threads' || '' }}
         shell: pwsh
         run: |
           if ($env:runner_os -eq "Windows") {
