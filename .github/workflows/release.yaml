@@ -39,7 +39,7 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
-          install: ${{ matrix.arch == 'arm64' && 'mingw-w64-x86_64-arm-none-eabi-gcc' || 'mingw-w64-x86_64-gcc' }} make
+          install: ${{ matrix.arch == 'arm64' && 'mingw-w64-x86_64-arm-none-eabi-gcc' || 'mingw-w64-x86_64-gcc' }} make mingw-w64-x86_64-go
 
       - name: Install dependencies (MacOS)
         if: runner.os == 'macOS'
