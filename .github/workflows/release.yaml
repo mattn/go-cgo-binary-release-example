@@ -39,7 +39,7 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
-          install: ${{ matrix.arch == 'arm64' && 'mingw-w64-x86_64-arm-none-eabi-gcc' || 'mingw-w64-x86_64-gcc' }} make mingw-w64-x86_64-go
+          install: ${{ matrix.arch == 'arm64' && 'mingw-w64-x86_64-arm-none-eabi-gcc' || 'mingw-w64-x86_64-gcc' }} make
 
       - name: Install dependencies (MacOS)
         if: runner.os == 'macOS'
@@ -55,16 +55,16 @@ jobs:
         run: |
           go build -o "myapp-${{ runner.os }}-${{ matrix.arch }}${{ runner.os == 'Windows' && '.exe' || '' }}"
 
-      - name: Build (Windows arm64)
-        if: ${{ matrix.os == 'windows-latest' && matrix.arch == 'arm64' }}
-        env:
-          CGO_ENABLED: 1
-          GOOS: windows
-          GOARCH: ${{ matrix.arch }}
-          CC: arm-none-eabi-gcc.exe
-        shell: msys2 {0}
-        run: |
-          go build -v -o myapp-windows-arm64.exe
+      #- name: Build (Windows arm64)
+      #  if: ${{ matrix.os == 'windows-latest' && matrix.arch == 'arm64' }}
+      #  env:
+      #    CGO_ENABLED: 1
+      #    GOOS: windows
+      #    GOARCH: ${{ matrix.arch }}
+      #    CC: arm-none-eabi-gcc.exe
+      #  shell: msys2 {0}
+      #  run: |
+      #    go build -v -o myapp-windows-arm64.exe
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
@@ -81,10 +81,6 @@ jobs:
 
       - name: Download artifacts from the build job
         uses: actions/download-artifact@v4
-
-      #- name: Debug
-      #  run: |
-      #    find .
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
