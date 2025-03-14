@@ -35,10 +35,14 @@ jobs:
             gcc-mingw-w64
 
       - name: Install dependencies (Windows)
-        if: runner.os == 'Windows' #&& matrix.arch != 'arm64'
+        if: runner.os == 'Windows'
         run: |
-          choco install mingw
-          choco install gcc-arm
+          if ("${{ matrix.arch }}" -eq "amd64") {
+            choco install --no-progress mingw
+          } elseif ("${{ matrix.arch }}" -eq "arm64") {
+            choco install --no-progress gcc-arm-embedded
+          }
+        shell: pwsh
 
       - name: Install dependencies (MacOS)
         if: runner.os == 'macOS'
