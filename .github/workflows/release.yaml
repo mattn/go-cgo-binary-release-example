@@ -51,7 +51,7 @@ jobs:
           CGO_ENABLED: 1
           GOOS: ${{ runner.os == 'Windows' && 'windows' || runner.os == 'Linux' && 'linux' || 'darwin' }}
           GOARCH: ${{ matrix.arch }}
-          CC: ${{ runner.os == 'macOS' && 'clang' || (runner.os == 'Linux' && matrix.arch == 'arm64') && 'aarch64-linux-gnu-gcc' || (runner.os == 'Windows' && matrix.arch == 'arm64') && 'c:\msys64\clangarm64\bin\aarch64-w64-mingw32-gcc.exe' || 'gcc' }}
+          CC: ${{ runner.os == 'macOS' && 'clang' || (runner.os == 'Linux' && matrix.arch == 'arm64') && 'aarch64-linux-gnu-gcc' || (runner.os == 'Windows' && matrix.arch == 'arm64') && 'aarch64-w64-mingw32-gcc' || 'gcc' }}
         shell: pwsh
         run: |
           if ($env:runner_os -eq "Windows") {
