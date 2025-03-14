@@ -35,7 +35,7 @@ jobs:
             gcc-mingw-w64
 
       - name: Install dependencies (Windows)
-        #if: runner.os == 'Windows' && matrix.arch != 'arm64'
+        if: runner.os == 'Windows' #&& matrix.arch != 'arm64'
         run: |
           choco install mingw
           choco install gcc-arm
