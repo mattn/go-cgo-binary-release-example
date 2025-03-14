@@ -64,6 +64,7 @@ jobs:
           #CC: aarch64-w64-mingw32-gcc
         run: |
           set MSYSTEM=CLANGARM64
+          go version
           msys2 -c 'go build -o myapp-windows-arm64.exe'
 
       - name: Archive artifacts
