@@ -67,7 +67,7 @@ jobs:
         shell: cmd
         run: |
           dir /b c:\msys64\mingw64\bin
-          c:\msys64\usr\bin\pacman -Ql mingw-w64-clang-aarch64-gcc
+          c:\msys64\usr\bin\pacman -Ql mingw-w64-clang-aarch64-gcc-compat
           go build -v -o myapp-windows-arm64.exe
 
       - name: Archive artifacts
