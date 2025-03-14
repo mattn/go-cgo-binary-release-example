@@ -61,18 +61,12 @@ jobs:
           CGO_ENABLED: 1
           GOOS: windows
           GOARCH: ${{ matrix.arch }}
-          CC: gcc
+          CC: c:/clangarm64/bin/gcc.exe
           CFLAGS: -Wa,-march=armv8-a
-        shell: msys2 {0}
+        shell: cmd
         run: |
-          pacman -Ql mingw-w64-clang-aarch64-gcc
-        #shell: cmd
-        #run: |
-        #  gcc -v
-        #  where gcc
-        #  pacman -S pkgfile
-        #  pkgfile -l mingw-w64-clang-aarch64-gcc
-        #  go build -v -o myapp-windows-arm64.exe
+          dir /s c:\
+          go build -v -o myapp-windows-arm64.exe
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
