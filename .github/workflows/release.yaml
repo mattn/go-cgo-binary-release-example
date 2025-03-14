@@ -52,13 +52,9 @@ jobs:
           GOOS: ${{ runner.os == 'Windows' && 'windows' || runner.os == 'Linux' && 'linux' || 'darwin' }}
           GOARCH: ${{ matrix.arch }}
           CC: ${{ runner.os == 'macOS' && 'clang' || (runner.os == 'Linux' && matrix.arch == 'arm64') && 'aarch64-linux-gnu-gcc' || (runner.os == 'Windows' && matrix.arch == 'arm64') && 'aarch64-w64-mingw32-gcc' || 'gcc' }}
-        shell: pwsh
+        shell: ${{ runner.os == 'macOS' && 'zsh' || runner.os == 'Linux' && 'bash' || 'msys2 {0}' }}
         run: |
-          if ($env:runner_os -eq "Windows") {
-            go build -o "myapp-${{ runner.os }}-${{ matrix.arch }}.exe"
-          } else {
-            go build -o "myapp-${{ runner.os }}-${{ matrix.arch }}"
-          }
+          go build -o "myapp-${{ runner.os }}-${{ matrix.arch }}${{ runner.os == 'Windows' && '.exe' || '' }}"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
