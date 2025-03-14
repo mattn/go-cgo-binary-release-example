@@ -40,7 +40,7 @@ jobs:
           if ("${{ matrix.arch }}" -eq "amd64") {
             choco install --no-progress mingw
           } elseif ("${{ matrix.arch }}" -eq "arm64") {
-            choco install --no-progress aarch64-w64-mingw32-gcc
+            choco install --no-progress gcc-arm-embedded
           }
         shell: pwsh
 
@@ -49,7 +49,7 @@ jobs:
         run: brew install gcc
 
       - name: Build
-        #if: ${{ !(matrix.os == 'windows-latest' && matrix.arch == 'arm64') }}
+        if: ${{ !(matrix.os == 'windows-latest' && matrix.arch == 'arm64') }}
         env:
           CGO_ENABLED: 1
           GOOS: ${{ runner.os == 'Windows' && 'windows' || runner.os == 'Linux' && 'linux' || 'darwin' }}
