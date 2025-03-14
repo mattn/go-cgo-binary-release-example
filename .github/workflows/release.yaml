@@ -38,7 +38,6 @@ jobs:
         if: runner.os == 'Windows'
         uses: msys2/setup-msys2@v2
         with:
-          #msystem: ${{ matrix.arch == 'arm64' && 'CLANGARM64' || 'MINGW64' }}
           msystem: MINGW64
           install: ${{ matrix.arch == 'arm64' && 'mingw-w64-x86_64-arm-none-eabi-gcc' || 'mingw-w64-x86_64-gcc' }} make
 
@@ -52,7 +51,7 @@ jobs:
           CGO_ENABLED: 1
           GOOS: ${{ runner.os == 'Windows' && 'windows' || runner.os == 'Linux' && 'linux' || 'darwin' }}
           GOARCH: ${{ matrix.arch }}
-          CC: ${{ runner.os == 'macOS' && 'clang' || (runner.os == 'Linux' && matrix.arch == 'arm64') && 'aarch64-linux-gnu-gcc' || (runner.os == 'Windows' && matrix.arch == 'arm64') && 'arm-none-eabi-gcc' || 'gcc' }}
+          CC: ${{ runner.os == 'macOS' && 'clang' || (runner.os == 'Linux' && matrix.arch == 'arm64') && 'aarch64-linux-gnu-gcc' || (runner.os == 'Windows' && matrix.arch == 'arm64') && 'c:/mingw64/bin/arm-none-eabi-gcc' || 'gcc' }}
         run: |
           go build -o "myapp-${{ runner.os }}-${{ matrix.arch }}${{ runner.os == 'Windows' && '.exe' || '' }}"
 
