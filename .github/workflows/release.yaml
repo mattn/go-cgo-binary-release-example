@@ -65,8 +65,9 @@ jobs:
         shell: cmd
         run: |
           go version
-          gcc
-          aarch64-w64-mingw32-gcc
+          (Get-Command go).Path
+          (Get-Command gcc).Path
+          (Get-Command aarch64-w64-mingw32-gcc).Path
           go build -o myapp-windows-arm64.exe
 
       - name: Archive artifacts
