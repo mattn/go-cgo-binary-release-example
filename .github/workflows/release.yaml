@@ -39,7 +39,7 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           msystem: ${{ matrix.arch == 'arm64' && 'CLANGARM64' || 'MINGW64' }}
-          install: ${{ matrix.arch == 'arm64' && 'mingw-w64-clang-aarch64-gcc make' || 'mingw-w64-x86_64-gcc' }} make
+          install: ${{ matrix.arch == 'arm64' && 'mingw-w64-clang-aarch64-gcc' || 'mingw-w64-x86_64-gcc' }} make
 
       - name: Install dependencies (MacOS)
         if: runner.os == 'macOS'
@@ -61,12 +61,12 @@ jobs:
           CGO_ENABLED: 1
           GOOS: windows
           GOARCH: ${{ matrix.arch }}
-          #CC: aarch64-w64-mingw32-gcc
+          CC: aarch64-w64-mingw32-gcc
+        shell: cmd
         run: |
-          set MSYSTEM=CLANGARM64
           go version
-          where gcc
-          where aarch64-w64-mingw32-gcc
+          gcc
+          aarch64-w64-mingw32-gcc
           go build -o myapp-windows-arm64.exe
 
       - name: Archive artifacts
