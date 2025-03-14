@@ -46,7 +46,7 @@ jobs:
         run: brew install gcc
 
       - name: Build
-        if: ${{ !(matrix.os == 'windows-latest' && matrix.arch == 'arm64') }}
+        #if: ${{ !(matrix.os == 'windows-latest' && matrix.arch == 'arm64') }}
         env:
           CGO_ENABLED: 1
           GOOS: ${{ runner.os == 'Windows' && 'windows' || runner.os == 'Linux' && 'linux' || 'darwin' }}
