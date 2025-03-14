@@ -40,35 +40,21 @@ jobs:
         with:
           #msystem: ${{ matrix.arch == 'arm64' && 'CLANGARM64' || 'MINGW64' }}
           msystem: MINGW64
-          install: ${{ matrix.arch == 'arm64' && 'mingw-w64-clang-aarch64-gcc' || 'mingw-w64-x86_64-gcc' }} make
+          install: ${{ matrix.arch == 'arm64' && 'mingw-w64-x86_64-arm-none-eabi-gcc' || 'mingw-w64-x86_64-gcc' }} make
 
       - name: Install dependencies (MacOS)
         if: runner.os == 'macOS'
         run: brew install gcc
 
       - name: Build
-        if: ${{ !(matrix.os == 'windows-latest' && matrix.arch == 'arm64') }}
+        #if: ${{ !(matrix.os == 'windows-latest' && matrix.arch == 'arm64') }}
         env:
           CGO_ENABLED: 1
           GOOS: ${{ runner.os == 'Windows' && 'windows' || runner.os == 'Linux' && 'linux' || 'darwin' }}
           GOARCH: ${{ matrix.arch }}
-          CC: ${{ runner.os == 'macOS' && 'clang' || (runner.os == 'Linux' && matrix.arch == 'arm64') && 'aarch64-linux-gnu-gcc' || (runner.os == 'Windows' && matrix.arch == 'arm64') && 'aarch64-w64-mingw32-gcc' || 'gcc' }}
+          CC: ${{ runner.os == 'macOS' && 'clang' || (runner.os == 'Linux' && matrix.arch == 'arm64') && 'aarch64-linux-gnu-gcc' || (runner.os == 'Windows' && matrix.arch == 'arm64') && 'arm-none-eabi-gcc' || 'gcc' }}
         run: |
           go build -o "myapp-${{ runner.os }}-${{ matrix.arch }}${{ runner.os == 'Windows' && '.exe' || '' }}"
-
-      - name: Build (Windows arm64)
-        if: ${{ matrix.os == 'windows-latest' && matrix.arch == 'arm64' }}
-        env:
-          CGO_ENABLED: 1
-          GOOS: windows
-          GOARCH: ${{ matrix.arch }}
-          CC: c:/msys64/clangarm64/bin/gcc.exe
-          CFLAGS: -Wa,-march=armv8-a
-        shell: cmd
-        run: |
-          dir /b c:\msys64\mingw64\bin
-          c:\msys64\usr\bin\pacman -Ql mingw-w64-clang-aarch64-gcc-compat
-          go build -v -o myapp-windows-arm64.exe
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
