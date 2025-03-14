@@ -55,20 +55,20 @@ jobs:
         run: |
           go build -o "myapp-${{ runner.os }}-${{ matrix.arch }}${{ runner.os == 'Windows' && '.exe' || '' }}"
 
-      - name: Build (Windows arm64)
-        if: ${{ matrix.os == 'windows-latest' && matrix.arch == 'arm64' }}
-        env:
-          CGO_ENABLED: 1
-          GOOS: windows
-          GOARCH: ${{ matrix.arch }}
-          CC: aarch64-w64-mingw32-gcc
-        shell: cmd
-        run: |
-          go version
-          (Get-Command go).Path
-          (Get-Command gcc).Path
-          (Get-Command aarch64-w64-mingw32-gcc).Path
-          go build -o myapp-windows-arm64.exe
+      #- name: Build (Windows arm64)
+      #  if: ${{ matrix.os == 'windows-latest' && matrix.arch == 'arm64' }}
+      #  env:
+      #    CGO_ENABLED: 1
+      #    GOOS: windows
+      #    GOARCH: ${{ matrix.arch }}
+      #    CC: aarch64-w64-mingw32-gcc
+      #  shell: cmd
+      #  run: |
+      #    go version
+      #    (Get-Command go).Path
+      #    (Get-Command gcc).Path
+      #    (Get-Command aarch64-w64-mingw32-gcc).Path
+      #    go build -o myapp-windows-arm64.exe
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
