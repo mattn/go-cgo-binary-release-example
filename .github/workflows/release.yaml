@@ -61,10 +61,10 @@ jobs:
           CGO_ENABLED: 1
           GOOS: windows
           GOARCH: ${{ matrix.arch }}
-          CC: aarch64-w64-mingw32-gcc
-        shell: cmd
+          #CC: aarch64-w64-mingw32-gcc
         run: |
-          go build -o "myapp-${{ runner.os }}-${{ matrix.arch }}${{ runner.os == 'Windows' && '.exe' || '' }}"
+          set MSYSTEM=CLANGARM64
+          msys2 -c 'go build -o myapp-windows-arm64.exe'
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
