@@ -61,11 +61,13 @@ jobs:
           CGO_ENABLED: 1
           GOOS: windows
           GOARCH: ${{ matrix.arch }}
-          CC: c:/clangarm64/bin/gcc.exe
+          CC: c:/msys64/clangarm64/bin/gcc.exe
           CFLAGS: -Wa,-march=armv8-a
         shell: cmd
         run: |
-          dir /s c:\
+          dir /b c:\msys64
+          dir /b c:\msys64\clangarm64
+          dir /b c:\msys64\clangarm64\bin
           go build -v -o myapp-windows-arm64.exe
 
       - name: Archive artifacts
