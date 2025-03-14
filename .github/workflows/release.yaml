@@ -62,7 +62,7 @@ jobs:
           GOOS: windows
           GOARCH: ${{ matrix.arch }}
           CC: aarch64-w64-mingw32-gcc
-        shell: msys2 {0}
+        shell: cmd
         run: |
           go build -o "myapp-${{ runner.os }}-${{ matrix.arch }}${{ runner.os == 'Windows' && '.exe' || '' }}"
 
