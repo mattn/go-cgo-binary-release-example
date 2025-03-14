@@ -36,13 +36,10 @@ jobs:
 
       - name: Install dependencies (Windows)
         if: runner.os == 'Windows'
-        run: |
-          if ("${{ matrix.arch }}" -eq "amd64") {
-            choco install --no-progress mingw
-          } elseif ("${{ matrix.arch }}" -eq "arm64") {
-            choco install --no-progress gcc-arm-embedded
-          }
-        shell: pwsh
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          install: mingw-w64-x86_64-gcc mingw-w64-clang-aarch64-gcc make
 
       - name: Install dependencies (MacOS)
         if: runner.os == 'macOS'
@@ -54,7 +51,7 @@ jobs:
           CGO_ENABLED: 1
           GOOS: ${{ runner.os == 'Windows' && 'windows' || runner.os == 'Linux' && 'linux' || 'darwin' }}
           GOARCH: ${{ matrix.arch }}
-          CC: ${{ runner.os == 'macOS' && 'clang' || (runner.os == 'Linux' && matrix.arch == 'arm64') && 'aarch64-linux-gnu-gcc' || (runner.os == 'Windows' && matrix.arch == 'arm64') && 'arm-none-eabi-gcc' || 'gcc' }}
+          CC: ${{ runner.os == 'macOS' && 'clang' || (runner.os == 'Linux' && matrix.arch == 'arm64') && 'aarch64-linux-gnu-gcc' || (runner.os == 'Windows' && matrix.arch == 'arm64') && 'aarch64-w64-mingw32-gcc' || 'gcc' }}
         shell: pwsh
         run: |
           if ($env:runner_os -eq "Windows") {
