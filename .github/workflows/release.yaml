@@ -40,7 +40,7 @@ jobs:
           if ("${{ matrix.arch }}" -eq "amd64") {
             choco install --no-progress mingw
           } elseif ("${{ matrix.arch }}" -eq "arm64") {
-            choco install --no-progress gcc-arm-embedded
+            choco install --no-progress aarch64-w64-mingw32-gcc
           }
         shell: pwsh
 
@@ -55,7 +55,6 @@ jobs:
           GOOS: ${{ runner.os == 'Windows' && 'windows' || runner.os == 'Linux' && 'linux' || 'darwin' }}
           GOARCH: ${{ matrix.arch }}
           CC: ${{ runner.os == 'macOS' && 'clang' || (runner.os == 'Linux' && matrix.arch == 'arm64') && 'aarch64-linux-gnu-gcc' || (runner.os == 'Windows' && matrix.arch == 'arm64') && 'arm-none-eabi-gcc' || 'gcc' }}
-          CFLAGS: ${{ matrix.arch == 'arm64' && '-mno-threads' || '' }}
         shell: pwsh
         run: |
           if ($env:runner_os -eq "Windows") {
